@@ -2,7 +2,7 @@
 	import { getContext } from 'svelte';
 	import { toast } from 'svelte-sonner';
 
-	import { showArchivedChats, showSidebar, user } from '$lib/stores';
+	import { showArchivedChats, showRecharge, showSidebar, user } from '$lib/stores';
 
 	import { slide } from 'svelte/transition';
 	import { page } from '$app/stores';
@@ -62,6 +62,8 @@
 						on:show={(e) => {
 							if (e.detail === 'archived-chat') {
 								showArchivedChats.set(true);
+							} else if (e.detail === 'recharge') {
+								showRecharge.set(true);
 							}
 						}}
 					>

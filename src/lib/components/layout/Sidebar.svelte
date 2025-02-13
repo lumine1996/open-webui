@@ -13,6 +13,7 @@
 		showSidebar,
 		mobile,
 		showArchivedChats,
+		showRecharge,
 		pinnedChats,
 		scrollPaginationEnabled,
 		currentChatPage,
@@ -57,6 +58,7 @@
 	import ChannelModal from './Sidebar/ChannelModal.svelte';
 	import ChannelItem from './Sidebar/ChannelItem.svelte';
 	import PencilSquare from '../icons/PencilSquare.svelte';
+	import RechargeModal from './Sidebar/RechargeModal.svelte';
 
 	const BREAKPOINT = 768;
 
@@ -426,6 +428,13 @@
 	}}
 />
 
+<RechargeModal
+	bind:show={$showRecharge}
+	on:change={async () => {
+		await initChatList();
+	}}
+/>
+
 <ChannelModal
 	bind:show={showCreateChannel}
 	onSubmit={async ({ name, access_control }) => {
@@ -520,7 +529,7 @@
 					<div class="self-center mx-1.5">
 						<img
 							crossorigin="anonymous"
-							src="{WEBUI_BASE_URL}/static/favicon.png"
+							src="/static/favicon.png"
 							class=" size-5 -translate-x-1.5 rounded-full"
 							alt="logo"
 						/>
@@ -862,6 +871,8 @@
 						on:show={(e) => {
 							if (e.detail === 'archived-chat') {
 								showArchivedChats.set(true);
+							} else if (e.detail === 'recharge') {
+								showRecharge.set(true);
 							}
 						}}
 					>

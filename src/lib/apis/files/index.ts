@@ -160,7 +160,7 @@ export const getFileContentById = async (id: string) => {
 		headers: {
 			Accept: 'application/json'
 		},
-		credentials: 'include'
+		credentials: 'omit'
 	})
 		.then(async (res) => {
 			if (!res.ok) throw await res.json();

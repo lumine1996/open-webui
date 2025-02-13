@@ -5,6 +5,7 @@
 	import { flyAndScale } from '$lib/utils/transitions';
 	import { goto } from '$app/navigation';
 	import ArchiveBox from '$lib/components/icons/ArchiveBox.svelte';
+	import Recharge from '$lib/components/icons/Recharge.svelte';
 	import { showSettings, activeUserIds, USAGE_POOL, mobile, showSidebar } from '$lib/stores';
 	import { fade, slide } from 'svelte/transition';
 	import Tooltip from '$lib/components/common/Tooltip.svelte';
@@ -87,6 +88,22 @@
 					<ArchiveBox className="size-5" strokeWidth="1.5" />
 				</div>
 				<div class=" self-center truncate">{$i18n.t('Archived Chats')}</div>
+			</button>
+			<button
+				class="flex rounded-md py-2 px-3 w-full hover:bg-gray-50 dark:hover:bg-gray-800 transition"
+				on:click={() => {
+					dispatch('show', 'recharge');
+					show = false;
+
+					if ($mobile) {
+						showSidebar.set(false);
+					}
+				}}
+			>
+				<div class=" self-center mr-3">
+					<Recharge className="size-5" strokeWidth="16" />
+				</div>
+				<div class=" self-center truncate">{$i18n.t('Recharge')}</div>
 			</button>
 
 			{#if role === 'admin'}

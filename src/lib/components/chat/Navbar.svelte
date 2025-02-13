@@ -8,6 +8,7 @@
 		mobile,
 		settings,
 		showArchivedChats,
+		showRecharge,
 		showControls,
 		showSidebar,
 		temporaryChatEnabled,
@@ -170,6 +171,8 @@
 						on:show={(e) => {
 							if (e.detail === 'archived-chat') {
 								showArchivedChats.set(true);
+							} else if (e.detail === 'recharge') {
+								showRecharge.set(true);
 							}
 						}}
 					>

@@ -1,4 +1,4 @@
-import { WEBUI_API_BASE_URL } from '$lib/constants';
+import { WEBUI_API_BASE_URL, AI_CHAT_SERVER_BASE_API } from '$lib/constants';
 
 export const getAdminDetails = async (token: string) => {
 	let error = null;
@@ -91,7 +91,7 @@ export const getSessionUser = async (token: string) => {
 			'Content-Type': 'application/json',
 			Authorization: `Bearer ${token}`
 		},
-		credentials: 'include'
+		credentials: 'omit'
 	})
 		.then(async (res) => {
 			if (!res.ok) throw await res.json();
@@ -118,7 +118,7 @@ export const ldapUserSignIn = async (user: string, password: string) => {
 		headers: {
 			'Content-Type': 'application/json'
 		},
-		credentials: 'include',
+		credentials: 'omit',
 		body: JSON.stringify({
 			user: user,
 			password: password
@@ -262,7 +262,7 @@ export const userSignIn = async (email: string, password: string) => {
 		headers: {
 			'Content-Type': 'application/json'
 		},
-		credentials: 'include',
+		credentials: 'omit',
 		body: JSON.stringify({
 			email: email,
 			password: password
@@ -289,20 +289,24 @@ export const userSignIn = async (email: string, password: string) => {
 export const userSignUp = async (
 	name: string,
 	email: string,
+	mobile: string,
+	verifyCode: string,
 	password: string,
 	profile_image_url: string
 ) => {
 	let error = null;
 
-	const res = await fetch(`${WEBUI_API_BASE_URL}/auths/signup`, {
+	const res = await fetch(`${AI_CHAT_SERVER_BASE_API}/auths/signup`, {
 		method: 'POST',
 		headers: {
 			'Content-Type': 'application/json'
 		},
-		credentials: 'include',
+		credentials: 'omit',
 		body: JSON.stringify({
 			name: name,
 			email: email,
+			mobile: mobile,
+			verifyCode: verifyCode,
 			password: password,
 			profile_image_url: profile_image_url
 		})
@@ -332,7 +336,7 @@ export const userSignOut = async () => {
 		headers: {
 			'Content-Type': 'application/json'
 		},
-		credentials: 'include'
+		credentials: 'omit'
 	})
 		.then(async (res) => {
 			if (!res.ok) throw await res.json();

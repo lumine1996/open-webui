@@ -15,6 +15,7 @@
 
 	import Spinner from '$lib/components/common/Spinner.svelte';
 	import OnBoarding from '$lib/components/OnBoarding.svelte';
+	import Tooltip from '$lib/components/common/Tooltip.svelte';
 
 	const i18n = getContext('i18n');
 
@@ -24,6 +25,8 @@
 
 	let name = '';
 	let email = '';
+	let mobile = '';
+	let verifyCode = '';
 	let password = '';
 
 	let ldapUsername = '';
@@ -52,13 +55,26 @@
 		await setSessionUser(sessionUser);
 	};
 
+	const verifyCodeHandler = async () => {
+		const res = 'Todo';
+
+		if (res) {
+			toast.success($i18n.t('Server connection verified'));
+		}
+	};
+
 	const signUpHandler = async () => {
-		const sessionUser = await userSignUp(name, email, password, generateInitialsImage(name)).catch(
-			(error) => {
-				toast.error(`${error}`);
-				return null;
-			}
-		);
+		const sessionUser = await userSignUp(
+			name,
+			email,
+			mobile,
+			verifyCode,
+			password,
+			generateInitialsImage(name)
+		).catch((error) => {
+			toast.error(`${error}`);
+			return null;
+		});
 
 		await setSessionUser(sessionUser);
 	};
@@ -147,7 +163,7 @@
 				<div class=" self-center">
 					<img
 						crossorigin="anonymous"
-						src="{WEBUI_BASE_URL}/static/splash.png"
+						src="/static/splash.png"
 						class=" w-6 rounded-full dark:invert"
 						alt="logo"
 					/>
@@ -218,6 +234,50 @@
 												placeholder={$i18n.t('Enter Your Full Name')}
 												required
 											/>
+										</div>
+										<div class="mb-2">
+											<div class=" text-sm font-medium text-left mb-1">{$i18n.t('Mobile')}</div>
+											<input
+												bind:value={mobile}
+												type="mobile"
+												class="my-0.5 w-full text-sm outline-none bg-transparent"
+												autocomplete="off"
+												name="mobile"
+												placeholder={$i18n.t('Enter Your Mobile')}
+												required
+											/>
+										</div>
+										<div class="mb-2">
+											<div class=" text-sm font-medium text-left mb-1">
+												{$i18n.t('Verify Code')}
+											</div>
+											<div class="flex gap-2">
+												<div class="flex flex-col" style="width: 140%;">
+													<input
+														bind:value={verifyCode}
+														type="text"
+														class="my-0.5 w-full text-sm outline-none bg-transparent"
+														autocomplete="off"
+														name="verifyCode"
+														placeholder={$i18n.t('Enter Verify Code You Received')}
+														required
+													/>
+												</div>
+												<Tooltip
+													content={$i18n.t('Get Verify Code')}
+													className="self-end -mb-1 w-full"
+												>
+													<button
+														class="bg-gray-700/5 hover:bg-gray-700/10 dark:bg-gray-100/5 dark:hover:bg-gray-100/10 dark:text-gray-300 dark:hover:text-white transition w-full rounded-full font-medium text-sm py-2.5"
+														on:click={() => {
+															verifyCodeHandler();
+														}}
+														type="button"
+													>
+														{$i18n.t('Get')}
+													</button>
+												</Tooltip>
+											</div>
 										</div>
 									{/if}
 
