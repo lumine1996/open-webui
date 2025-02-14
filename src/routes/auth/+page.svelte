@@ -6,7 +6,13 @@
 	import { page } from '$app/stores';
 
 	import { getBackendConfig } from '$lib/apis';
-	import { ldapUserSignIn, getSessionUser, userSignIn, userSignUp } from '$lib/apis/auths';
+	import {
+		ldapUserSignIn,
+		getSessionUser,
+		userSignIn,
+		userSignUp,
+		getVerifyCode
+	} from '$lib/apis/auths';
 
 	import { WEBUI_API_BASE_URL, WEBUI_BASE_URL } from '$lib/constants';
 	import { WEBUI_NAME, config, user, socket } from '$lib/stores';
@@ -56,10 +62,13 @@
 	};
 
 	const verifyCodeHandler = async () => {
-		const res = 'Todo';
+		const res = await getVerifyCode(mobile).catch((error) => {
+			toast.error(`${error}`);
+			return null;
+		});
 
 		if (res) {
-			toast.success($i18n.t('Server connection verified'));
+			toast.success($i18n.t('Verification code has been sent'));
 		}
 	};
 

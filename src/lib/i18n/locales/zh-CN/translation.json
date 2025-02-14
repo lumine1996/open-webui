@@ -1044,6 +1044,7 @@
 	"Valves updated successfully": "值更新成功",
 	"variable": "变量",
 	"variable to have them replaced with clipboard content.": "变量将被剪贴板内容替换。",
+	"Verification code has been sent": "验证码已发送",
 	"Verify Code": "验证码",
 	"Version": "版本",
 	"Version {{selectedVersion}} of {{totalVersions}}": "版本 {{selectedVersion}}/{{totalVersions}}",
