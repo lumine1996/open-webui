@@ -68,7 +68,7 @@
 		});
 
 		if (res) {
-		    startCountdown();
+			startCountdown();
 			toast.success($i18n.t('Verification code has been sent'));
 		}
 	};
@@ -180,33 +180,37 @@
 	}}
 />
 
-<div class="w-full h-screen max-h-[100dvh] text-white relative">
-	<div class="w-full h-full absolute top-0 left-0 bg-white dark:bg-black"></div>
+<div class="w-full h-screen max-h-[100dvh] text-white relative overflow-hidden">
+	<div class="w-full h-full absolute top-0 left-0 g-bg">
+		<div class="g-polygon g-polygon-1"></div>
+		<div class="g-polygon g-polygon-2"></div>
+		<div class="g-polygon g-polygon-3"></div>
+	</div>
 
 	<div class="w-full absolute top-0 left-0 right-0 h-8 drag-region" />
 
 	{#if loaded}
-		<div class="fixed m-10 z-50">
+		<!-- <div class="fixed m-10 z-50">
 			<div class="flex space-x-2">
 				<div class=" self-center">
 					<img
 						crossorigin="anonymous"
 						src="/static/splash.png"
-						class=" w-6 rounded-full dark:invert"
+						class=" w-20 rounded-full"
 						alt="logo"
 					/>
 				</div>
 			</div>
-		</div>
+		</div> -->
 
 		<div
 			class="fixed bg-transparent min-h-screen w-full flex justify-center font-primary z-50 text-black dark:text-white"
 		>
-			<div class="w-full sm:max-w-md px-10 min-h-screen flex flex-col text-center">
+			<div class="w-full sm:max-w-lg px-10 min-h-screen flex flex-col text-center">
 				{#if ($config?.features.auth_trusted_header ?? false) || $config?.features.auth === false}
 					<div class=" my-auto pb-10 w-full">
 						<div
-							class="flex items-center justify-center gap-3 text-xl sm:text-2xl text-center font-semibold dark:text-gray-200"
+							class="flex items-center justify-center gap-3 text-xl sm:text-3xl text-center font-semibold dark:text-gray-200"
 						>
 							<div>
 								{$i18n.t('Signing in to {{WEBUI_NAME}}', { WEBUI_NAME: $WEBUI_NAME })}
@@ -219,7 +223,7 @@
 					</div>
 				{:else}
 					<div
-						class="  my-auto p-10 w-full dark:text-gray-100 border-solid border-4 border-[#f2ecf5] rounded-[12px]"
+						class="bg-white/50 dark:bg-black/50 p-8 rounded-lg shadow-lg my-auto pb-10 w-full dark:text-gray-100"
 					>
 						<form
 							class=" flex flex-col justify-center"
@@ -229,17 +233,32 @@
 							}}
 						>
 							<div class="mb-1">
-								<div class=" text-2xl font-medium">
+								<div class=" text-xl font-medium text-left">
 									{#if $config?.onboarding ?? false}
 										{$i18n.t(`Get started with {{WEBUI_NAME}}`, { WEBUI_NAME: $WEBUI_NAME })}
 									{:else if mode === 'ldap'}
 										{$i18n.t(`Sign in to {{WEBUI_NAME}} with LDAP`, { WEBUI_NAME: $WEBUI_NAME })}
 									{:else if mode === 'signin'}
-										{$i18n.t(`Sign in to {{WEBUI_NAME}}`, { WEBUI_NAME: $WEBUI_NAME })}
+                  {$i18n.t('Welcome to use')+' '}
 									{:else}
-										{$i18n.t(`Sign up to {{WEBUI_NAME}}`, { WEBUI_NAME: $WEBUI_NAME })}
+										{$i18n.t('Welcome to use')+' '}
 									{/if}
 								</div>
+                <div class="text-3xl font-bold text-red-500 py-4 text-left">{$i18n.t('DeepSeek R1 Full Blood Edition')}</div>
+
+                <div class="flex items-center justify-center">
+                  <img
+                    crossorigin="anonymous"
+                    src="/static/splash.png"
+                    class=" w-14 rounded-full"
+                    alt="logo"
+                  />
+                  <h2
+                    class="text-xl font-medium"
+                  >
+                    {$WEBUI_NAME}
+                  </h2>
+                </div>
 
 								{#if $config?.onboarding ?? false}
 									<div class=" mt-1 text-xs font-medium text-gray-500">
@@ -255,7 +274,7 @@
 								<div class="flex flex-col mt-4">
 									{#if mode === 'signup'}
 										<div class="mb-2">
-											<div class=" text-sm font-medium text-left mb-1">{$i18n.t('Name')}</div>
+											<div class=" text-md font-medium text-left mb-1">{$i18n.t('Name')}</div>
 											<input
 												bind:value={name}
 												type="text"
@@ -265,6 +284,51 @@
 												required
 											/>
 										</div>
+									{/if}
+
+									{#if mode === 'ldap'}
+										<div class="mb-2">
+											<div class=" text-sm font-medium text-left mb-1">{$i18n.t('Username')}</div>
+											<input
+												bind:value={ldapUsername}
+												type="text"
+												class="my-0.5 w-full text-sm outline-none bg-transparent"
+												autocomplete="username"
+												name="username"
+												placeholder={$i18n.t('Enter Your Username')}
+												required
+											/>
+										</div>
+									{:else}
+										<div class="mb-2">
+											<div class=" text-sm font-medium text-left mb-1">{$i18n.t('Email')}</div>
+											<input
+												bind:value={email}
+												type="email"
+												class="my-0.5 w-full text-sm outline-none bg-transparent"
+												autocomplete="email"
+												name="email"
+												placeholder={$i18n.t('Enter Your Email')}
+												required
+											/>
+										</div>
+									{/if}
+
+									<div>
+										<div class=" text-sm font-medium text-left mb-1">{$i18n.t('Password')}</div>
+
+										<input
+											bind:value={password}
+											type="password"
+											class="my-0.5 w-full text-sm outline-none bg-transparent"
+											placeholder={$i18n.t('Enter Your Password')}
+											autocomplete="current-password"
+											name="current-password"
+											required
+										/>
+									</div>
+
+									{#if mode === 'signup'}
 										<div class="mb-2">
 											<div class=" text-sm font-medium text-left mb-1">{$i18n.t('Mobile')}</div>
 											<input
@@ -311,48 +375,6 @@
 											</div>
 										</div>
 									{/if}
-
-									{#if mode === 'ldap'}
-										<div class="mb-2">
-											<div class=" text-sm font-medium text-left mb-1">{$i18n.t('Username')}</div>
-											<input
-												bind:value={ldapUsername}
-												type="text"
-												class="my-0.5 w-full text-sm outline-none bg-transparent"
-												autocomplete="username"
-												name="username"
-												placeholder={$i18n.t('Enter Your Username')}
-												required
-											/>
-										</div>
-									{:else}
-										<div class="mb-2">
-											<div class=" text-sm font-medium text-left mb-1">{$i18n.t('Email')}</div>
-											<input
-												bind:value={email}
-												type="email"
-												class="my-0.5 w-full text-sm outline-none bg-transparent"
-												autocomplete="email"
-												name="email"
-												placeholder={$i18n.t('Enter Your Email')}
-												required
-											/>
-										</div>
-									{/if}
-
-									<div>
-										<div class=" text-sm font-medium text-left mb-1">{$i18n.t('Password')}</div>
-
-										<input
-											bind:value={password}
-											type="password"
-											class="my-0.5 w-full text-sm outline-none bg-transparent"
-											placeholder={$i18n.t('Enter Your Password')}
-											autocomplete="current-password"
-											name="current-password"
-											required
-										/>
-									</div>
 								</div>
 							{/if}
 							<div class="mt-5">
@@ -366,7 +388,7 @@
 										</button>
 									{:else}
 										<button
-											class="bg-[#f0ecf5] hover:bg-[#6B3E98] hover:text-[#fff] dark:bg-gray-100/5 dark:hover:bg-gray-100/10 dark:text-gray-300 dark:hover:text-white transition w-full rounded-full font-medium text-sm py-2.5"
+											class="bg-purple-800 text-white hover:bg-purple-800/80 dark:bg-gray-100/5 dark:hover:bg-gray-100/10 dark:text-gray-300 dark:hover:text-white transition w-full rounded-full font-medium text-sm py-2.5"
 											type="submit"
 										>
 											{mode === 'signin'
@@ -544,5 +566,49 @@
 		background-color: #4e4e4e0d;
 		color: #aaa;
 		cursor: not-allowed;
+	}
+	.g-polygon {
+		position: absolute;
+		opacity: 0.5;
+	}
+	.g-polygon-1 {
+		bottom: 100px;
+		left: 50%;
+		transform: translate(-50%, 0);
+		width: 714px;
+		height: 390px;
+		background: linear-gradient(#ffee55, #fdee99);
+		clip-path: polygon(0 10%, 30% 0, 100% 40%, 70% 100%, 20% 90%);
+	}
+
+	.g-polygon-2 {
+		bottom: 0px;
+		left: 30%;
+		transform: translate(-50%, 0);
+		width: 1000px;
+		height: 450px;
+		background: linear-gradient(-36deg, #e950d1, #f980d9);
+		clip-path: polygon(10% 0, 100% 70%, 100% 100%, 20% 90%);
+	}
+
+	.g-polygon-3 {
+		bottom: 0px;
+		left: 70%;
+		transform: translate(-50%, 0);
+		width: 1000px;
+		height: 450px;
+		background: rgba(87, 80, 233);
+		clip-path: polygon(80% 0, 100% 70%, 100% 100%, 20% 90%);
+	}
+	.g-bg::before {
+		content: '';
+		position: fixed;
+		top: 0;
+		left: 0;
+		bottom: 0;
+		right: 0;
+		backdrop-filter: blur(150px);
+		z-index: 1;
+		overflow: hidden;
 	}
 </style>
