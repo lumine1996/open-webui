@@ -124,7 +124,7 @@
 										crossorigin="anonymous"
 										src={model?.info?.meta?.profile_image_url ??
 											($i18n.language === 'dg-DG' ? `/doge.png` : `/static/favicon.png`)}
-										class=" size-9 @sm:size-10 rounded-full border-[1px] border-gray-200 dark:border-none"
+										class=" size-20 @sm:size-10 rounded-full border-[0px] border-gray-200 dark:border-none"
 										alt="logo"
 										draggable="false"
 									/>
