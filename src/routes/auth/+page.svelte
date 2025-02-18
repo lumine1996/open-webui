@@ -244,7 +244,7 @@
 										{$i18n.t('Welcome to use')+' '}
 									{/if}
 								</div>
-                <div class="text-3xl font-bold text-red-500 py-4 text-left">{$i18n.t('DeepSeek R1 Full Blood Edition')}</div>
+                <div class="text-3xl font-bold text-purple-800 py-4">{$i18n.t('DeepSeek R1 Full Blood Edition')}</div>
 
                 <div class="flex items-center justify-center">
                   <img
