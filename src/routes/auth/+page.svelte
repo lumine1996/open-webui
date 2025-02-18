@@ -68,10 +68,29 @@
 		});
 
 		if (res) {
+		    startCountdown();
 			toast.success($i18n.t('Verification code has been sent'));
 		}
 	};
+	let countdown = 60;
+	let isSending = false;
+	let interval = null;
 
+	// 启动验证码函数
+	const startCountdown = () => {
+		if (isSending) return;
+		isSending = true;
+		countdown = 60;
+
+		interval = setInterval(() => {
+			if (countdown > 0) {
+				countdown--;
+			} else {
+				clearInterval(interval);
+				isSending = false;
+			}
+		}, 1000);
+	};
 	const signUpHandler = async () => {
 		const sessionUser = await userSignUp(
 			name,
@@ -84,8 +103,8 @@
 			toast.error(`${error}`);
 			return null;
 		});
-
-		await setSessionUser(sessionUser);
+		await signInHandler();
+		// await setSessionUser(sessionUser);
 	};
 
 	const ldapSignInHandler = async () => {
@@ -199,7 +218,9 @@
 						</div>
 					</div>
 				{:else}
-					<div class="  my-auto pb-10 w-full dark:text-gray-100">
+					<div
+						class="  my-auto p-10 w-full dark:text-gray-100 border-solid border-4 border-[#f2ecf5] rounded-[12px]"
+					>
 						<form
 							class=" flex flex-col justify-center"
 							on:submit={(e) => {
@@ -273,7 +294,7 @@
 													/>
 												</div>
 												<Tooltip
-													content={$i18n.t('Get Verify Code')}
+													content={!isSending ? $i18n.t('Get Verify Code') : ''}
 													className="self-end -mb-1 w-full"
 												>
 													<button
@@ -282,8 +303,9 @@
 															verifyCodeHandler();
 														}}
 														type="button"
+														disabled={isSending}
 													>
-														{$i18n.t('Get')}
+														{isSending ? `${countdown}s` : $i18n.t('Get')}
 													</button>
 												</Tooltip>
 											</div>
@@ -344,7 +366,7 @@
 										</button>
 									{:else}
 										<button
-											class="bg-gray-700/5 hover:bg-gray-700/10 dark:bg-gray-100/5 dark:hover:bg-gray-100/10 dark:text-gray-300 dark:hover:text-white transition w-full rounded-full font-medium text-sm py-2.5"
+											class="bg-[#f0ecf5] hover:bg-[#6B3E98] hover:text-[#fff] dark:bg-gray-100/5 dark:hover:bg-gray-100/10 dark:text-gray-300 dark:hover:text-white transition w-full rounded-full font-medium text-sm py-2.5"
 											type="submit"
 										>
 											{mode === 'signin'
@@ -516,3 +538,11 @@
 		</div>
 	{/if}
 </div>
+
+<style>
+	button:disabled {
+		background-color: #4e4e4e0d;
+		color: #aaa;
+		cursor: not-allowed;
+	}
+</style>
