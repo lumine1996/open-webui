@@ -1194,7 +1194,7 @@
 											<Tooltip content={$i18n.t('Record voice')}>
 												<button
 													id="voice-input-button"
-													class=" text-gray-600 dark:text-gray-300 hover:text-gray-700 dark:hover:text-gray-200 transition rounded-full p-1.5 mr-0.5 self-center"
+													class="hidden text-gray-600 dark:text-gray-300 hover:text-gray-700 dark:hover:text-gray-200 transition rounded-full p-1.5 mr-0.5 self-center"
 													type="button"
 													on:click={async () => {
 														try {
@@ -1239,7 +1239,7 @@
 											</Tooltip>
 										{/if}
 
-										{#if !history.currentId || history.messages[history.currentId]?.done == true}
+										{#if  !history.currentId || history.messages[history.currentId]?.done == true}
 											{#if prompt === ''}
 												<div class=" flex items-center">
 													<Tooltip content={$i18n.t('Call')}>
@@ -1247,7 +1247,7 @@
 															class=" {webSearchEnabled ||
 															($settings?.webSearch ?? false) === 'always'
 																? 'bg-blue-500 text-white hover:bg-blue-400 '
-																: 'bg-black text-white hover:bg-gray-900 dark:bg-white dark:text-black dark:hover:bg-gray-100'} transition rounded-full p-1.5 self-center"
+																: 'bg-black text-white hover:bg-gray-900 dark:bg-white dark:text-black dark:hover:bg-gray-100'} transition rounded-full p-1.5 self-center hidden"
 															type="button"
 															on:click={async () => {
 																if (selectedModels.length > 1) {

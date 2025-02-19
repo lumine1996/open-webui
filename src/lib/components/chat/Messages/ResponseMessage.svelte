@@ -193,7 +193,7 @@
 
 		speaking = true;
 
-		if ($config.audio.tts.engine !== '') {
+		if ($config?.audio?.tts?.engine !== '') {
 			loadingSpeech = true;
 
 			const messageContentParts: string[] = getMessageContentParts(
@@ -225,7 +225,7 @@
 			for (const [idx, sentence] of messageContentParts.entries()) {
 				const res = await synthesizeOpenAISpeech(
 					localStorage.token,
-					$settings?.audio?.tts?.defaultVoice === $config.audio.tts.voice
+					$settings?.audio?.tts?.defaultVoice === $config?.audio?.tts?.voice
 						? ($settings?.audio?.tts?.voice ?? $config?.audio?.tts?.voice)
 						: $config?.audio?.tts?.voice,
 					sentence
@@ -852,7 +852,7 @@
 										id="speak-button-{message.id}"
 										class="{isLastMessage
 											? 'visible'
-											: 'invisible group-hover:visible'} p-1.5 hover:bg-black/5 dark:hover:bg-white/5 rounded-lg dark:hover:text-white hover:text-black transition"
+											: 'invisible group-hover:visible'} p-1.5 hover:bg-black/5 dark:hover:bg-white/5 rounded-lg dark:hover:text-white hover:text-black transition hidden"
 										on:click={() => {
 											if (!loadingSpeech) {
 												toggleSpeakMessage();
