@@ -328,21 +328,17 @@ export const userSignUp = async (
 	return res;
 };
 
-export const getVerifyCode = async (
-	mobile: string,
-) => {
+export const getVerifyCode = async (mobile: string) => {
 	let error = null;
 
-	mobile = mobile ? mobile : "-1"
+	mobile = mobile ? mobile : '-1';
 	const res = await fetch(`${AI_CHAT_SERVER_BASE_API}/auths/verify-code/sms/${mobile}`, {
 		method: 'POST',
 		headers: {
 			'Content-Type': 'application/json'
 		},
 		credentials: 'omit',
-		body: JSON.stringify({
-
-		})
+		body: JSON.stringify({})
 	})
 		.then(async (res) => {
 			if (!res.ok) throw await res.json();

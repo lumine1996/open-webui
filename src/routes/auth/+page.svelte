@@ -103,8 +103,11 @@
 			toast.error(`${error}`);
 			return null;
 		});
-		await signInHandler();
-		// await setSessionUser(sessionUser);
+		
+		if (sessionUser) {
+			await signInHandler();
+			// await setSessionUser(sessionUser);
+		}
 	};
 
 	const ldapSignInHandler = async () => {
