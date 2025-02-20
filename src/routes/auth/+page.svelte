@@ -226,7 +226,7 @@
 					</div>
 				{:else}
 					<div
-						class="bg-white/50 dark:bg-black/50 p-8 rounded-lg shadow-lg my-auto pb-10 w-full dark:text-gray-100"
+						class="bg-white/50 dark:bg-black/50 p-8 md:p-10 md:py-12 rounded-xl shadow-xl my-auto pb-10 w-full dark:text-gray-100"
 					>
 						<form
 							class=" flex flex-col justify-center"
@@ -247,8 +247,8 @@
 										{$i18n.t('Welcome to use') + ' '}
 									{/if}
 								</div>
-								<div class="text-3xl font-bold text-purple-800 py-4">
-									{$i18n.t('DeepSeek R1 Full Blood Edition')}
+								<div class="text-2xl md:text-3xl font-bold text-purple-800 py-4">
+									{$i18n.t('DeepSeek R1 671B')}
 								</div>
 
 								<div class="flex items-center justify-center">
