@@ -355,7 +355,7 @@ export const getVerifyCode = async (mobile: string) => {
 	}
 
 	return res;
-}
+};
 
 export const userSignOut = async () => {
 	let error = null;
@@ -723,5 +723,66 @@ export const deleteAPIKey = async (token: string) => {
 	if (error) {
 		throw error;
 	}
+	return res;
+};
+
+// 获取支付跳转code url
+export const getQrCodeUrl = async (amount: number, userId: string) => {
+	let error = null;
+
+	const res = await fetch(`${AI_CHAT_SERVER_BASE_API}/wx-pay/code`, {
+		method: 'POST',
+		headers: {
+			'Content-Type': 'application/json'
+		},
+		credentials: 'omit',
+		body: JSON.stringify({
+			amount: amount,
+			userId: userId
+		})
+	})
+		.then(async (res) => {
+			if (!res.ok) throw await res.json();
+			return res.json();
+		})
+		.catch((err) => {
+			console.log(err);
+			error = err.message;
+			return null;
+		});
+
+	if (error) {
+		console.log('error', error);
+
+		throw error;
+	}
+
+	return res;
+};
+// 查询支付结果
+export const getPayStatus = async (payNo: string) => {
+	let error = null;
+
+	const res = await fetch(`${AI_CHAT_SERVER_BASE_API}/wx-pay/pay/${payNo}/status`, {
+		method: 'GET',
+		headers: {
+			'Content-Type': 'application/json'
+		},
+		credentials: 'omit'
+	})
+		.then(async (res) => {
+			if (!res.ok) throw await res.json();
+			return res.json();
+		})
+		.catch((err) => {
+			console.log(err);
+			error = err.detail;
+			return null;
+		});
+
+	if (error) {
+		throw error;
+	}
+
 	return res;
 };

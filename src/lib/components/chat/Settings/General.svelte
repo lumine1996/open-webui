@@ -233,7 +233,7 @@
 			</div>
 		</div>
 
-		{#if $user.role === 'admin' || $user?.permissions.chat?.controls}
+		{#if $user.role === 'admin' || $user?.permissions?.chat?.controls}
 			<hr class=" dark:border-gray-850 my-3" />
 
 			<div>

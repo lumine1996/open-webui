@@ -242,26 +242,26 @@
 									{:else if mode === 'ldap'}
 										{$i18n.t(`Sign in to {{WEBUI_NAME}} with LDAP`, { WEBUI_NAME: $WEBUI_NAME })}
 									{:else if mode === 'signin'}
-                  {$i18n.t('Welcome to use')+' '}
+										{$i18n.t('Welcome to use') + ' '}
 									{:else}
-										{$i18n.t('Welcome to use')+' '}
+										{$i18n.t('Welcome to use') + ' '}
 									{/if}
 								</div>
-                <div class="text-3xl font-bold text-purple-800 py-4">{$i18n.t('DeepSeek R1 Full Blood Edition')}</div>
+								<div class="text-3xl font-bold text-purple-800 py-4">
+									{$i18n.t('DeepSeek R1 Full Blood Edition')}
+								</div>
 
-                <div class="flex items-center justify-center">
-                  <img
-                    crossorigin="anonymous"
-                    src="/static/splash.png"
-                    class=" w-14 rounded-full"
-                    alt="logo"
-                  />
-                  <h2
-                    class="text-xl font-medium"
-                  >
-                    {$WEBUI_NAME}
-                  </h2>
-                </div>
+								<div class="flex items-center justify-center">
+									<img
+										crossorigin="anonymous"
+										src="/static/splash.png"
+										class=" w-14 rounded-full"
+										alt="logo"
+									/>
+									<h2 class="text-xl font-medium">
+										{$WEBUI_NAME}
+									</h2>
+								</div>
 
 								{#if $config?.onboarding ?? false}
 									<div class=" mt-1 text-xs font-medium text-gray-500">
