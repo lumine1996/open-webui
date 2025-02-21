@@ -36,9 +36,7 @@
 		showOverview,
 		chatTitle,
 		showArtifacts,
-		tools,
-		COMPANY_NAME,
-		PARTNERSHIP_NAME
+		tools
 	} from '$lib/stores';
 	import {
 		convertMessagesToHistory,
@@ -2062,7 +2060,7 @@
 									}
 								}}
 							/>
-							<CompanyName bottomValue="10" isVertical={false}></CompanyName>
+							<CompanyName classBottom="bottom-[10px]" isVertical={false}></CompanyName>
 						</div>
 					{/if}
 				</div>

@@ -564,7 +564,7 @@
 		</div>
 	{/if}
 </div>
-<CompanyName bottomValue="0" isVertical={true}></CompanyName>
+<CompanyName classBottom="bottom-[0px]" isVertical={true}></CompanyName>
 
 <style>
 	button:disabled {

@@ -1,11 +1,11 @@
 <script>
 	import { COMPANY_NAME, PARTNERSHIP_NAME } from '$lib/stores';
-	export let bottomValue;
 	export let isVertical;
+	export let classBottom;
 </script>
 
 <div
-	class="flex justify-center items-center w-full h-[40px] absolute bottom-[{bottomValue}px] left-0 z-10"
+	class="flex justify-center items-center w-full h-[40px] absolute left-0 z-10 dark:text-gray-100 {classBottom}"
 >
 	<span><img class="w-[30px]" src="/static/splash.png" alt="" /></span>
 	<span>{$COMPANY_NAME}</span>
