@@ -1,4 +1,5 @@
 import { OPENAI_API_BASE_URL, WEBUI_API_BASE_URL, WEBUI_BASE_URL } from '$lib/constants';
+import {t} from 'i18next'
 
 export const getOpenAIConfig = async (token: string = '') => {
 	let error = null;
@@ -291,11 +292,13 @@ export const chatCompletion = async (
 		body: JSON.stringify(body)
 	}).catch((err) => {
 		console.log(err);
-		error = err;
+		// error = err;
+		error = t('The server is busy. Please try again later.')
 		return null;
 	});
 
 	if (error) {
+		// throw error;
 		throw error;
 	}
 
@@ -322,7 +325,8 @@ export const generateOpenAIChatCompletion = async (
 			return res.json();
 		})
 		.catch((err) => {
-			error = `${err?.detail ?? err}`;
+			// error = `${err?.detail ?? err}`;
+			error = t('The server is busy. Please try again later.')
 			return null;
 		});
 
