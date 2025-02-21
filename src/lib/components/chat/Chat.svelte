@@ -37,8 +37,8 @@
 		chatTitle,
 		showArtifacts,
 		tools,
-		COMPANY_NAME_CHAN,
-		COMPANY_NAME_ZEN
+		COMPANY_NAME,
+		PARTNERSHIP_NAME
 	} from '$lib/stores';
 	import {
 		convertMessagesToHistory,
