@@ -13,6 +13,7 @@
 	import { get, type Unsubscriber, type Writable } from 'svelte/store';
 	import type { i18n as i18nType } from 'i18next';
 	import { WEBUI_BASE_URL } from '$lib/constants';
+	import CompanyName from '$lib/components/layout/CompanyName.svelte';
 
 	import {
 		chatId,
@@ -35,7 +36,9 @@
 		showOverview,
 		chatTitle,
 		showArtifacts,
-		tools
+		tools,
+		COMPANY_NAME_CHAN,
+		COMPANY_NAME_ZEN
 	} from '$lib/stores';
 	import {
 		convertMessagesToHistory,
@@ -2024,7 +2027,7 @@
 							</div>
 						</div>
 					{:else}
-						<div class="overflow-auto w-full h-full flex items-center">
+						<div class="overflow-auto w-full h-full flex items-center relative">
 							<Placeholder
 								{history}
 								{selectedModels}
@@ -2059,6 +2062,7 @@
 									}
 								}}
 							/>
+							<CompanyName bottomValue="10" isVertical={false}></CompanyName>
 						</div>
 					{/if}
 				</div>

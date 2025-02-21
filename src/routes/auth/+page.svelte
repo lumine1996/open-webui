@@ -22,6 +22,7 @@
 	import Spinner from '$lib/components/common/Spinner.svelte';
 	import OnBoarding from '$lib/components/OnBoarding.svelte';
 	import Tooltip from '$lib/components/common/Tooltip.svelte';
+	import CompanyName from '$lib/components/layout/CompanyName.svelte';
 
 	const i18n = getContext('i18n');
 
@@ -103,7 +104,7 @@
 			toast.error(`${error}`);
 			return null;
 		});
-		
+
 		if (sessionUser) {
 			await signInHandler();
 			// await setSessionUser(sessionUser);
@@ -563,6 +564,7 @@
 		</div>
 	{/if}
 </div>
+<CompanyName bottomValue="0" isVertical={true}></CompanyName>
 
 <style>
 	button:disabled {
