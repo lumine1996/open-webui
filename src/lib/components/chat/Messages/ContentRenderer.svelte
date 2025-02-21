@@ -7,6 +7,7 @@
 	import { chatId, mobile, showArtifacts, showControls, showOverview } from '$lib/stores';
 	import FloatingButtons from '../ContentRenderer/FloatingButtons.svelte';
 	import { createMessagesList } from '$lib/utils';
+	import { SHOW_FLOAT_BUTTON } from '$lib/constants';
 
 	export let id;
 	export let content;
@@ -26,6 +27,10 @@
 
 	const updateButtonPosition = (event) => {
 		const buttonsContainerElement = document.getElementById(`floating-buttons-${id}`);
+		if (!SHOW_FLOAT_BUTTON) {
+			closeFloatingButtons();
+			return;
+		}
 		if (
 			!contentContainerElement?.contains(event.target) &&
 			!buttonsContainerElement?.contains(event.target)
