@@ -14,7 +14,7 @@
 		getVerifyCode
 	} from '$lib/apis/auths';
 
-	import { WEBUI_API_BASE_URL, WEBUI_BASE_URL } from '$lib/constants';
+	import { WEBUI_API_BASE_URL, WEBUI_BASE_URL,COMPANY_SLOGAN_PRIMARY,COMPANY_SLOGAN_SECONDARY } from '$lib/constants';
 	import { WEBUI_NAME, config, user, socket } from '$lib/stores';
 
 	import { generateInitialsImage, canvasPixelTest } from '$lib/utils';
@@ -210,6 +210,12 @@
 		<div
 			class="fixed bg-transparent min-h-screen w-full flex justify-center font-primary z-50 text-black dark:text-white"
 		>
+		<!-- 广告位/宣传位 -->
+		<div class="slogan-secdtion min-w-80 hidden md:flex flex-col items-center justify-center mr-20 ">
+			<h3 class="text-2xl md:text-3xl font-semibold">{COMPANY_SLOGAN_PRIMARY}</h3>
+			<h5 class="text-xl md:text-2xl font-semibold py-4 pb-8">{COMPANY_SLOGAN_SECONDARY}</h5>
+			<img src="/assets/images/login-slogan.png" class="w-80 h-72" alt="">
+		</div>
 			<div class="w-full sm:max-w-lg px-10 min-h-screen flex flex-col text-center">
 				{#if ($config?.features.auth_trusted_header ?? false) || $config?.features.auth === false}
 					<div class=" my-auto pb-10 w-full">
