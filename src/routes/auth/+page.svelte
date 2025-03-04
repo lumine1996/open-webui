@@ -211,8 +211,8 @@
 			class="fixed bg-transparent min-h-screen w-full flex justify-center font-primary z-50 text-black dark:text-white"
 		>
 		<!-- 广告位/宣传位 -->
-		<div class="slogan-secdtion min-w-80 hidden md:flex flex-col items-center justify-center mr-20 ">
-			<h3 class="text-2xl md:text-3xl font-semibold">{COMPANY_SLOGAN_PRIMARY}</h3>
+		<div class="slogan-secdtion min-w-80 hidden md:flex flex-col items-center justify-center mr-20 font-sans">
+			<h3 class="text-2xl md:text-3xl font-semibold ">{COMPANY_SLOGAN_PRIMARY}</h3>
 			<h5 class="text-xl md:text-2xl font-semibold py-4 pb-8">{COMPANY_SLOGAN_SECONDARY}</h5>
 			<img src="/assets/images/login-slogan.png" class="w-80 h-72" alt="">
 		</div>
