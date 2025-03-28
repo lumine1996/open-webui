@@ -24,7 +24,7 @@ export const getModels = async (token: string = '', base: boolean = false) => {
 		throw error;
 	}
 
-	let models = res?.data ?? [];
+	const models = res?.data ?? [];
 	return models;
 };
 
@@ -561,7 +561,7 @@ export const getPipelinesList = async (token: string = '') => {
 		throw error;
 	}
 
-	let pipelines = res?.data ?? [];
+	const pipelines = res?.data ?? [];
 	return pipelines;
 };
 
@@ -704,7 +704,7 @@ export const getPipelines = async (token: string, urlIdx?: string) => {
 		throw error;
 	}
 
-	let pipelines = res?.data ?? [];
+	const pipelines = res?.data ?? [];
 	return pipelines;
 };
 
@@ -829,10 +829,9 @@ export const updatePipelineValves = async (
 
 export const getBackendConfig = async () => {
 	let error = null;
-
-	const res = await fetch(`${WEBUI_BASE_URL}/api/config`, {
+	const res = await fetch(`/api/config`, {
 		method: 'GET',
-		credentials: 'omit',
+		credentials: 'include',
 		headers: {
 			'Content-Type': 'application/json'
 		}
@@ -1121,7 +1120,7 @@ export interface ModelMeta {
 	profile_image_url?: string;
 }
 
-export interface ModelParams {}
+export interface ModelParams { }
 
 export type GlobalModelConfig = ModelConfig[];
 

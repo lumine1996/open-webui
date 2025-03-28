@@ -1,5 +1,5 @@
 import { sveltekit } from '@sveltejs/kit/vite';
-import { defineConfig } from 'vite';
+import { defineConfig, loadEnv } from 'vite';
 
 // /** @type {import('vite').Plugin} */
 // const viteServerConfig = {
@@ -15,16 +15,31 @@ import { defineConfig } from 'vite';
 // 	}
 // };
 
-export default defineConfig({
-	plugins: [sveltekit()],
-	define: {
-		APP_VERSION: JSON.stringify(process.env.npm_package_version),
-		APP_BUILD_HASH: JSON.stringify(process.env.APP_BUILD_HASH || 'dev-build')
-	},
-	build: {
-		sourcemap: true
-	},
-	worker: {
-		format: 'es'
+
+export default defineConfig(({ mode }) => {
+	const env = loadEnv(mode, process.cwd(), '');
+
+	return {
+		plugins: [sveltekit()],
+		define: {
+			APP_VERSION: JSON.stringify(process.env.npm_package_version),
+			APP_BUILD_HASH: JSON.stringify(process.env.APP_BUILD_HASH || 'dev-build')
+		},
+		build: {
+			sourcemap: true
+		},
+		worker: {
+			format: 'es'
+		},
+		server: {
+			proxy: {
+				'/api': {
+					target: env.VITE_PROXY_URL,
+					changeOrigin: true,
+					secure: false
+				}
+			}
+		}
 	}
-});
+}
+);
