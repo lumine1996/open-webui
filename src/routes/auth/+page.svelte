@@ -428,6 +428,7 @@
 													{mode === 'signin' ? $i18n.t('Sign up') : $i18n.t('Sign in')}
 												</button>
 											</div>
+											<div class="mt-2 text-[12px] text-[#ff0000]">注册即送百万Token</div>
 										{/if}
 									{/if}
 								{/if}
