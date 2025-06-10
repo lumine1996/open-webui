@@ -425,10 +425,11 @@
 														}
 													}}
 												>
-													{mode === 'signin' ? $i18n.t('Sign up') : $i18n.t('Sign in')}
+													{mode === 'signin' ? $i18n.t('Sign up') : $i18n.t('Sign in')}<span
+														>即送百万Token！</span
+													>
 												</button>
 											</div>
-											<div class="mt-2 text-[12px] text-[#ff0000]">注册即送百万Token</div>
 										{/if}
 									{/if}
 								{/if}
