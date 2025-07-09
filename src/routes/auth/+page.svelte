@@ -14,7 +14,13 @@
 		getVerifyCode
 	} from '$lib/apis/auths';
 
-	import { WEBUI_API_BASE_URL, WEBUI_BASE_URL,COMPANY_SLOGAN_PRIMARY,COMPANY_SLOGAN_SECONDARY } from '$lib/constants';
+	import {
+		WEBUI_API_BASE_URL,
+		WEBUI_BASE_URL,
+		COMPANY_SLOGAN_PRIMARY,
+		COMPANY_SLOGAN_SECONDARY,
+		COMPANY_EMAIL_SUFFIX
+	} from '$lib/constants';
 	import { WEBUI_NAME, config, user, socket } from '$lib/stores';
 
 	import { generateInitialsImage, canvasPixelTest } from '$lib/utils';
@@ -33,8 +39,10 @@
 	let name = '';
 	let email = '';
 	let mobile = '';
-	let verifyCode = '';
+	let code = '';
 	let password = '';
+	let username = '';
+	let registerFrom = 'ai';
 
 	let ldapUsername = '';
 
@@ -93,21 +101,28 @@
 		}, 1000);
 	};
 	const signUpHandler = async () => {
+		username = 'ai' + mobile;
 		const sessionUser = await userSignUp(
 			name,
 			email,
 			mobile,
-			verifyCode,
+			code,
 			password,
+			username,
+			registerFrom,
 			generateInitialsImage(name)
 		).catch((error) => {
 			toast.error(`${error}`);
 			return null;
 		});
 
-		if (sessionUser) {
-			await signInHandler();
+		if (sessionUser.success) {
+			// await signInHandler();
 			// await setSessionUser(sessionUser);
+			// mode ='signin'
+			toast.success($i18n.t('等待审核'));
+		} else {
+			toast.error(sessionUser.detail);
 		}
 	};
 
@@ -120,6 +135,9 @@
 	};
 
 	const submitHandler = async () => {
+	  // 登录以手机号为主, 尽量兼容之前的邮箱登录
+	  email = isNaN(mobile) ? mobile : mobile + COMPANY_EMAIL_SUFFIX;
+
 		if (mode === 'ldap') {
 			await ldapSignInHandler();
 		} else if (mode === 'signin') {
@@ -210,12 +228,14 @@
 		<div
 			class="fixed bg-transparent min-h-screen w-full flex justify-center font-primary z-50 text-black dark:text-white"
 		>
-		<!-- 广告位/宣传位 -->
-		<div class="slogan-secdtion min-w-80 hidden md:flex flex-col items-center justify-center mr-20 font-sans">
-			<h3 class="text-2xl md:text-3xl font-semibold ">{COMPANY_SLOGAN_PRIMARY}</h3>
-			<h5 class="text-xl md:text-2xl font-semibold py-4 pb-8">{COMPANY_SLOGAN_SECONDARY}</h5>
-			<img src="/assets/images/login-slogan.png" class="w-80 h-72" alt="">
-		</div>
+			<!-- 广告位/宣传位 -->
+			<div
+				class="slogan-secdtion min-w-80 hidden md:flex flex-col items-center justify-center mr-20 font-sans"
+			>
+				<h3 class="text-2xl md:text-3xl font-semibold">{COMPANY_SLOGAN_PRIMARY}</h3>
+				<h5 class="text-xl md:text-2xl font-semibold py-4 pb-8">{COMPANY_SLOGAN_SECONDARY}</h5>
+				<img src="/assets/images/login-slogan.png" class="w-80 h-72" alt="" />
+			</div>
 			<div class="w-full sm:max-w-lg px-10 min-h-screen flex flex-col text-center">
 				{#if ($config?.features.auth_trusted_header ?? false) || $config?.features.auth === false}
 					<div class=" my-auto pb-10 w-full">
@@ -310,7 +330,7 @@
 											/>
 										</div>
 									{:else}
-										<div class="mb-2">
+										<!-- <div class="mb-2">
 											<div class=" text-sm font-medium text-left mb-1">{$i18n.t('Email')}</div>
 											<input
 												bind:value={email}
@@ -321,24 +341,7 @@
 												placeholder={$i18n.t('Enter Your Email')}
 												required
 											/>
-										</div>
-									{/if}
-
-									<div>
-										<div class=" text-sm font-medium text-left mb-1">{$i18n.t('Password')}</div>
-
-										<input
-											bind:value={password}
-											type="password"
-											class="my-0.5 w-full text-sm outline-none bg-transparent"
-											placeholder={$i18n.t('Enter Your Password')}
-											autocomplete="current-password"
-											name="current-password"
-											required
-										/>
-									</div>
-
-									{#if mode === 'signup'}
+										</div> -->
 										<div class="mb-2">
 											<div class=" text-sm font-medium text-left mb-1">{$i18n.t('Mobile')}</div>
 											<input
@@ -351,6 +354,9 @@
 												required
 											/>
 										</div>
+									{/if}
+
+									{#if mode === 'signup'}
 										<div class="mb-2">
 											<div class=" text-sm font-medium text-left mb-1">
 												{$i18n.t('Verify Code')}
@@ -358,7 +364,7 @@
 											<div class="flex gap-2">
 												<div class="flex flex-col" style="width: 140%;">
 													<input
-														bind:value={verifyCode}
+														bind:value={code}
 														type="text"
 														class="my-0.5 w-full text-sm outline-none bg-transparent"
 														autocomplete="off"
@@ -385,6 +391,19 @@
 											</div>
 										</div>
 									{/if}
+									<div>
+										<div class=" text-sm font-medium text-left mb-1">{$i18n.t('Password')}</div>
+
+										<input
+											bind:value={password}
+											type="password"
+											class="my-0.5 w-full text-sm outline-none bg-transparent"
+											placeholder={$i18n.t('Enter Your Password')}
+											autocomplete="current-password"
+											name="current-password"
+											required
+										/>
+									</div>
 								</div>
 							{/if}
 							<div class="mt-5">
@@ -425,9 +444,11 @@
 														}
 													}}
 												>
-													{mode === 'signin' ? $i18n.t('Sign up') : $i18n.t('Sign in')}<span
-														>即送百万Token！</span
-													>
+													{#if mode === 'signin'}
+														{$i18n.t('Sign up')} {@html '<span>即送百万Token！</span>'}
+													{:else}
+														{$i18n.t('Sign in')}
+													{/if}
 												</button>
 											</div>
 										{/if}

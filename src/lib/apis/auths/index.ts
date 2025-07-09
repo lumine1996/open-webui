@@ -1,4 +1,4 @@
-import { WEBUI_API_BASE_URL, AI_CHAT_SERVER_BASE_API } from '$lib/constants';
+import { WEBUI_API_BASE_URL, AI_CHAT_SERVER_BASE_API, ACCOUNT_CENTER_BASE_API } from '$lib/constants';
 
 export const getAdminDetails = async (token: string) => {
 	let error = null;
@@ -290,13 +290,15 @@ export const userSignUp = async (
 	name: string,
 	email: string,
 	mobile: string,
-	verifyCode: string,
+	code: string,
 	password: string,
+	username: string,
+	registerFrom: string,
 	profile_image_url: string
 ) => {
 	let error = null;
 
-	const res = await fetch(`${AI_CHAT_SERVER_BASE_API}/auths/signup`, {
+	const res = await fetch(`${ACCOUNT_CENTER_BASE_API}/public/account/register/normal-user`, {
 		method: 'POST',
 		headers: {
 			'Content-Type': 'application/json'
@@ -306,8 +308,10 @@ export const userSignUp = async (
 			name: name,
 			email: email,
 			mobile: mobile,
-			verifyCode: verifyCode,
+			code: code,
 			password: password,
+			username,
+			registerFrom,
 			profile_image_url: profile_image_url
 		})
 	})
@@ -332,13 +336,12 @@ export const getVerifyCode = async (mobile: string) => {
 	let error = null;
 
 	mobile = mobile ? mobile : '-1';
-	const res = await fetch(`${AI_CHAT_SERVER_BASE_API}/auths/verify-code/sms/${mobile}`, {
-		method: 'POST',
+	const res = await fetch(`${ACCOUNT_CENTER_BASE_API}/public/account/sys/sms/send/${mobile}`, {
+		method: 'GET',
 		headers: {
 			'Content-Type': 'application/json'
 		},
-		credentials: 'omit',
-		body: JSON.stringify({})
+		credentials: 'omit'
 	})
 		.then(async (res) => {
 			if (!res.ok) throw await res.json();
