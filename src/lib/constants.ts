@@ -8,15 +8,18 @@ export const APP_PARTNERSHIP_NAME = import.meta.env.VITE_APP_PARTNERSHIP_NAME;
 export const COMPANY_SLOGAN_PRIMARY = import.meta.env.VITE_COMPANY_SLOGAN_PRIMARY;
 export const COMPANY_SLOGAN_SECONDARY = import.meta.env.VITE_COMPANY_SLOGAN_SECONDARY;
 export const COMPANY_EMAIL_SUFFIX = import.meta.env.VITE_COMPANY_EMAIL_SUFFIX;
+export const VITE_AI_CHAT_SERVER_BASE_API = import.meta.env.VITE_AI_CHAT_SERVER_BASE_API;
+export const VITE_ACCOUNT_CENTER_BASE_API = dev ?  import.meta.env.VITE_ACCOUNT_CENTER_BASE_API_DEV : import.meta.env.VITE_ACCOUNT_CENTER_BASE_API;
 
 // 可以分别指定 dev 和 build 使用的 WebUI 地址，本地也可以使用服务器上的后端
 export const WEBUI_SERVER_HOSTNAME = dev ? import.meta.env.VITE_WEBUI_SERVER_HOSTNAME_DEV : import.meta.env.VITE_WEBUI_SERVER_HOSTNAME;
 export const WEBUI_HOSTNAME = browser ? `${WEBUI_SERVER_HOSTNAME}` : '';
 export const WEBUI_BASE_URL = browser ? `http://${WEBUI_HOSTNAME}` : ``;
 export const WEBUI_API_BASE_URL = `${WEBUI_BASE_URL}/api/v1`;
-export const AI_CHAT_SERVER_BASE_API = `http://${WEBUI_HOSTNAME}/api/v2`;
+export const AI_CHAT_SERVER_BASE_API = `${VITE_AI_CHAT_SERVER_BASE_API}/api/v2`;
 export const ACCOUNT_CENTER_BASE_API = import.meta.env.VITE_ACCOUNT_CENTER_BASE_API;
-
+// 丽蟾云登录地址 
+export const LICHEN_CLOUD_LOGIN_URL = `${VITE_AI_CHAT_SERVER_BASE_API}/account/login`;
 export const OLLAMA_API_BASE_URL = `${WEBUI_BASE_URL}/ollama`;
 export const OPENAI_API_BASE_URL = `${WEBUI_BASE_URL}/openai`;
 export const AUDIO_API_BASE_URL = `${WEBUI_BASE_URL}/api/v1/audio`;

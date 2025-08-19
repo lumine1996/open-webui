@@ -11,7 +11,8 @@
 		getSessionUser,
 		userSignIn,
 		userSignUp,
-		getVerifyCode
+		getVerifyCode,
+		getLoginToken
 	} from '$lib/apis/auths';
 
 	import {
@@ -19,7 +20,8 @@
 		WEBUI_BASE_URL,
 		COMPANY_SLOGAN_PRIMARY,
 		COMPANY_SLOGAN_SECONDARY,
-		COMPANY_EMAIL_SUFFIX
+		COMPANY_EMAIL_SUFFIX,
+		VITE_ACCOUNT_CENTER_BASE_API
 	} from '$lib/constants';
 	import { WEBUI_NAME, config, user, socket } from '$lib/stores';
 
@@ -29,6 +31,7 @@
 	import OnBoarding from '$lib/components/OnBoarding.svelte';
 	import Tooltip from '$lib/components/common/Tooltip.svelte';
 	import CompanyName from '$lib/components/layout/CompanyName.svelte';
+	import { Separator } from 'bits-ui';
 
 	const i18n = getContext('i18n');
 
@@ -135,8 +138,8 @@
 	};
 
 	const submitHandler = async () => {
-	  // 登录以手机号为主, 尽量兼容之前的邮箱登录
-	  email = isNaN(mobile) ? mobile : mobile + COMPANY_EMAIL_SUFFIX;
+		// 登录以手机号为主, 尽量兼容之前的邮箱登录
+		email = isNaN(mobile) ? mobile : mobile + COMPANY_EMAIL_SUFFIX;
 
 		if (mode === 'ldap') {
 			await ldapSignInHandler();
@@ -172,8 +175,17 @@
 	};
 
 	let onboarding = false;
-
+	const urlParams = new URLSearchParams(window.location.search);
+	const token = urlParams.get('token');
 	onMount(async () => {
+		if (token) {
+			const res = await getLoginToken(token).catch((error) => {
+				toast.error(`${error}`);
+				return null;
+			});
+
+			if (res) await setSessionUser(res);
+		}
 		if ($user !== undefined) {
 			await goto('/');
 		}
@@ -417,7 +429,7 @@
 										</button>
 									{:else}
 										<button
-											class="bg-purple-800 text-white hover:bg-purple-800/80 dark:bg-gray-100/5 dark:hover:bg-gray-100/10 dark:text-gray-300 dark:hover:text-white transition w-full rounded-full font-medium text-sm py-2.5"
+											class="bg-purple-800 text-white hover:bg-purple-800/80 shadow-[0_0_10px_2px_#ccc] dark:bg-gray-100/5 dark:hover:bg-gray-100/10 dark:text-gray-300 dark:hover:text-white transition w-full rounded-full font-medium text-sm py-2.5"
 											type="submit"
 										>
 											{mode === 'signin'
@@ -426,6 +438,28 @@
 													? $i18n.t('Create Admin Account')
 													: $i18n.t('Create Account')}
 										</button>
+										<div>
+											<div class="flex items-center my-4 bg-[">
+												<Separator.Root
+													class="flex-grow bg-border h-px bg-gray-700/10"
+													data-orientation="horizontal"
+												/>
+												<span class="px-3 text-sm text-gray-700">or</span>
+												<Separator.Root
+													class="flex-grow bg-border h-px bg-gray-700/10"
+													data-orientation="horizontal"
+												/>
+											</div>
+											<button
+												class=" text-gray-700 hover:bg-purple-800/10 shadow-[0_0_10px_2px_#ccc] dark:bg-gray-100/5 dark:hover:bg-gray-100/10 dark:text-gray-300 dark:hover:text-white transition w-full rounded-full font-medium text-sm py-2.5"
+												type="button"
+												on:click={() => {
+													window.location.href = `${VITE_ACCOUNT_CENTER_BASE_API}/account/login?oauth_callback=${window.location.href}`;
+												}}
+											>
+												使用丽蟾云账号登录
+											</button>
+										</div>
 
 										{#if $config?.features.enable_signup && !($config?.onboarding ?? false)}
 											<div class=" mt-4 text-sm text-center">

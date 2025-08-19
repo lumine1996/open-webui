@@ -285,6 +285,37 @@ export const userSignIn = async (email: string, password: string) => {
 
 	return res;
 };
+export const getLoginToken = async (token: string) => {
+	let error = null;
+    const formData = new URLSearchParams();
+    formData.append('token', token);
+	console.log(token);
+	
+	const res = await fetch(`${AI_CHAT_SERVER_BASE_API}/auths/sign-in/account-center/token`, {
+		method: 'POST',
+		headers: {
+			'Content-Type': 'application/x-www-form-urlencoded'
+		},
+		credentials: 'omit',
+		body: formData.toString()
+	})
+		.then(async (res) => {
+			if (!res.ok) throw await res.json();
+			return res.json();
+		})
+		.catch((err) => {
+			console.log(err);
+
+			error = err.detail;
+			return null;
+		});
+
+	if (error) {
+		throw error;
+	}
+
+	return res;
+};
 
 export const userSignUp = async (
 	name: string,
